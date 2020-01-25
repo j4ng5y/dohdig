@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/j4ng5y/gdig/pkg/cloudflare"
-	"github.com/j4ng5y/gdig/pkg/common"
-	"github.com/j4ng5y/gdig/pkg/google"
+	"github.com/j4ng5y/dohdig/pkg/cloudflare"
+	"github.com/j4ng5y/dohdig/pkg/common"
+	"github.com/j4ng5y/dohdig/pkg/google"
 	"github.com/spf13/cobra"
 )
 
