@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/j4ng5y/gdig/pkg/common"
+	"github.com/j4ng5y/dohdig/pkg/common"
 )
 
 // QueryRequest is the request needed to query dns.google.com
