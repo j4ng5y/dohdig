@@ -12,6 +12,13 @@ import (
 
 func execute() {
 	var (
+		validProviders = []string{
+			"google",
+			"cloudflare",
+			"blahdns-fi",
+			"blahdns-jp",
+			"blahdns-de",
+		}
 		providerFlag         string
 		showOptionsFlag      bool
 		typeFlag             string
@@ -79,9 +86,21 @@ func execute() {
 				}
 			},
 		}
+
+		listCmd = &cobra.Command{
+			Use:   "list-providers",
+			Short: "list available providers",
+			Run: func(ccmd *cobra.Command, args []string) {
+				fmt.Println("Valid Providers:")
+				for _, v := range validProviders {
+					fmt.Printf("  %s\n", v)
+				}
+			},
+		}
 	)
 
-	gdigCmd.Flags().StringVarP(&providerFlag, "provider", "i", "google", "The provider to use (google | cloudflare)")
+	gdigCmd.AddCommand(listCmd)
+	gdigCmd.Flags().StringVarP(&providerFlag, "provider", "i", "google", "The provider to use")
 	gdigCmd.Flags().StringVarP(&typeFlag, "record-type", "t", "A", "The DNS record type to query")
 	gdigCmd.Flags().StringVarP(&ctFlag, "content-type", "c", "application/x-javascript", "The desired content type to return")
 	gdigCmd.Flags().StringVarP(&eDNSClientSubnetFlag, "edns-client-subnet", "e", "0.0.0.0/0", "Set source IP address for DNS resolution")
