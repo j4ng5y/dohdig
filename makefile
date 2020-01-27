@@ -24,3 +24,7 @@ build_darwin:
 build_windows:
 	CGO_ENABLE=0 GOOS=windows GOARCH=386 go build -a -o bin/${DOHDIGBIN}_win32.exe
 	CGO_ENABLE=0 GOOS=windows GOARCH=amd64 go build -a -o bin/${DOHDIGBIN}_win64.exe
+
+@PHONY: clean
+clean:
+	rm -rf bin/dohdig*
