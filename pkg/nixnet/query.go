@@ -1,4 +1,4 @@
-package blahdns
+package nixnet
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 
 // QueryRequest is the request needed to query dns.google.com
 type QueryRequest struct {
-	Country                 string
+	ServerType              string
 	Resource                string
 	ResourceType            string
 	DisableDNSSECValidation bool
@@ -27,30 +27,45 @@ type QueryRequest struct {
 //     (error):                     An error if one exists, nil otherwise
 func (q QueryRequest) Do() (*common.QueryResponse, error) {
 	var U string
-	switch q.Country {
-	case "fi":
+
+	switch q.ServerType {
+	case "uncensored":
 		U = fmt.Sprintf(
-			"https://doh-fi.blahdns.com/dns-query?name=%s&type=%s&cd=%v&do=%v",
+			"https://uncensored.any.dns.nixnet.xyz/dns-query?name=%s&type=%s&cd=%v&do=%v",
 			q.Resource,
 			q.ResourceType,
 			q.DisableDNSSECValidation,
 			q.ShowDNSSEC)
-	case "jp":
+	case "adblock":
 		U = fmt.Sprintf(
-			"https://doh-jp.blahdns.com/dns-query?name=%s&type=%s&cd=%v&do=%v",
+			"https://adblock.any.dns.nixnet.xyz/dns-query?name=%s&type=%s&cd=%v&do=%v",
 			q.Resource,
 			q.ResourceType,
 			q.DisableDNSSECValidation,
 			q.ShowDNSSEC)
-	case "de":
+	case "lasvegas":
 		U = fmt.Sprintf(
-			"https://doh-de.blahdns.com/dns-query?name=%s&type=%s&cd=%v&do=%v",
+			"https://uncensored.lv1.dns.nixnet.xyz/dns-query?name=%s&type=%s&cd=%v&do=%v",
+			q.Resource,
+			q.ResourceType,
+			q.DisableDNSSECValidation,
+			q.ShowDNSSEC)
+	case "newyork":
+		U = fmt.Sprintf(
+			"https://uncensored.ny1.dns.nixnet.xyz/dns-query?name=%s&type=%s&cd=%v&do=%v",
+			q.Resource,
+			q.ResourceType,
+			q.DisableDNSSECValidation,
+			q.ShowDNSSEC)
+	case "luxembourg":
+		U = fmt.Sprintf(
+			"https://uncensored.lux1.dns.nixnet.xyz/dns-query?name=%s&type=%s&cd=%v&do=%v",
 			q.Resource,
 			q.ResourceType,
 			q.DisableDNSSECValidation,
 			q.ShowDNSSEC)
 	default:
-		return nil, fmt.Errorf("unsupported country")
+		return nil, fmt.Errorf("unsupported nixnet server type, %s", q.ServerType)
 	}
 
 	u, err := url.Parse(U)
