@@ -8,6 +8,10 @@ import (
 	"github.com/j4ng5y/dohdig/pkg/cloudflare"
 	"github.com/j4ng5y/dohdig/pkg/common"
 	"github.com/j4ng5y/dohdig/pkg/google"
+	"github.com/j4ng5y/dohdig/pkg/nextdns"
+	"github.com/j4ng5y/dohdig/pkg/nixnet"
+	"github.com/j4ng5y/dohdig/pkg/securedns"
+	"github.com/j4ng5y/dohdig/pkg/snopyta"
 	"github.com/spf13/cobra"
 )
 
@@ -19,6 +23,14 @@ func execute() {
 			"blahdns-fi",
 			"blahdns-jp",
 			"blahdns-de",
+			"nextdns",
+			"nixnet-uncensored",
+			"nixnet-adblock",
+			"nixnet-lasvegas",
+			"nixnet-newyork",
+			"nixnet-luxembourg",
+			"securedns",
+			"snopyta",
 		}
 		providerFlag         string
 		showOptionsFlag      bool
@@ -28,11 +40,12 @@ func execute() {
 		doFlag               bool
 		eDNSClientSubnetFlag string
 		randomPaddingFlag    string
+		nextDNSID            string
 		dohdigCmd            = &cobra.Command{
 			Use:     "dohdig",
 			Short:   "A small, dig-like command that only runs against the dns.google.com API",
 			Example: "dohdig www.google.com",
-			Version: "0.2.2",
+			Version: "0.2.3",
 			Args:    cobra.ExactArgs(1),
 			Run: func(ccmd *cobra.Command, args []string) {
 				var err error
@@ -84,13 +97,14 @@ func execute() {
 					resp.Print()
 				case "blahdns-fi":
 					req := blahdns.QueryRequest{
+						Country:                 "fi",
 						Resource:                args[0],
 						ResourceType:            typeFlag,
 						DisableDNSSECValidation: cdFlag,
 						ShowDNSSEC:              doFlag,
 					}
 
-					resp, err = req.Do("fi")
+					resp, err = req.Do()
 					if err != nil {
 						log.Fatal(err)
 					}
@@ -98,13 +112,14 @@ func execute() {
 					resp.Print()
 				case "blahdns-jp":
 					req := blahdns.QueryRequest{
+						Country:                 "jp",
 						Resource:                args[0],
 						ResourceType:            typeFlag,
 						DisableDNSSECValidation: cdFlag,
 						ShowDNSSEC:              doFlag,
 					}
 
-					resp, err = req.Do("jp")
+					resp, err = req.Do()
 					if err != nil {
 						log.Fatal(err)
 					}
@@ -112,13 +127,135 @@ func execute() {
 					resp.Print()
 				case "blahdns-de":
 					req := blahdns.QueryRequest{
+						Country:                 "de",
 						Resource:                args[0],
 						ResourceType:            typeFlag,
 						DisableDNSSECValidation: cdFlag,
 						ShowDNSSEC:              doFlag,
 					}
 
-					resp, err = req.Do("de")
+					resp, err = req.Do()
+					if err != nil {
+						log.Fatal(err)
+					}
+
+					resp.Print()
+				case "nextdns":
+					if nextDNSID == "" {
+						log.Fatal("the --nextdns-id flag must be set to use NextDNS")
+					}
+					req := nextdns.QueryRequest{
+						ID:                      nextDNSID,
+						Resource:                args[0],
+						ResourceType:            typeFlag,
+						DisableDNSSECValidation: cdFlag,
+						ShowDNSSEC:              doFlag,
+					}
+
+					resp, err = req.Do()
+					if err != nil {
+						log.Fatal(err)
+					}
+
+					resp.Print()
+				case "nixnet-uncensored":
+					req := nixnet.QueryRequest{
+						ServerType:              "uncensored",
+						Resource:                args[0],
+						ResourceType:            typeFlag,
+						DisableDNSSECValidation: cdFlag,
+						ShowDNSSEC:              doFlag,
+					}
+
+					resp, err = req.Do()
+					if err != nil {
+						log.Fatal(err)
+					}
+
+					resp.Print()
+				case "nixnet-adblock":
+					req := nixnet.QueryRequest{
+						ServerType:              "adblock",
+						Resource:                args[0],
+						ResourceType:            typeFlag,
+						DisableDNSSECValidation: cdFlag,
+						ShowDNSSEC:              doFlag,
+					}
+
+					resp, err = req.Do()
+					if err != nil {
+						log.Fatal(err)
+					}
+
+					resp.Print()
+				case "nixnet-lasvegas":
+					req := nixnet.QueryRequest{
+						ServerType:              "lasvegas",
+						Resource:                args[0],
+						ResourceType:            typeFlag,
+						DisableDNSSECValidation: cdFlag,
+						ShowDNSSEC:              doFlag,
+					}
+
+					resp, err = req.Do()
+					if err != nil {
+						log.Fatal(err)
+					}
+
+					resp.Print()
+				case "nixnet-newyork":
+					req := nixnet.QueryRequest{
+						ServerType:              "newyork",
+						Resource:                args[0],
+						ResourceType:            typeFlag,
+						DisableDNSSECValidation: cdFlag,
+						ShowDNSSEC:              doFlag,
+					}
+
+					resp, err = req.Do()
+					if err != nil {
+						log.Fatal(err)
+					}
+
+					resp.Print()
+				case "nixnet-luxembourg":
+					req := nixnet.QueryRequest{
+						ServerType:              "luxembourg",
+						Resource:                args[0],
+						ResourceType:            typeFlag,
+						DisableDNSSECValidation: cdFlag,
+						ShowDNSSEC:              doFlag,
+					}
+
+					resp, err = req.Do()
+					if err != nil {
+						log.Fatal(err)
+					}
+
+					resp.Print()
+				case "securedns":
+					req := securedns.QueryRequest{
+						Resource:                args[0],
+						ResourceType:            typeFlag,
+						DisableDNSSECValidation: cdFlag,
+						ShowDNSSEC:              doFlag,
+					}
+
+					resp, err = req.Do()
+					if err != nil {
+						log.Fatal(err)
+					}
+
+					resp.Print()
+				case "snopyta":
+					req := snopyta.QueryRequest{
+						Resource:                args[0],
+						ResourceType:            typeFlag,
+						DisableDNSSECValidation: cdFlag,
+						ShowDNSSEC:              doFlag,
+					}
+
+					resp, err = req.Do()
 					if err != nil {
 						log.Fatal(err)
 					}
